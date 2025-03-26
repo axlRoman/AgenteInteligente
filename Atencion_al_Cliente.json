@@ -10,8 +10,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        3100,
-        60
+        4440,
+        260
       ],
       "id": "a159577a-3342-4ffd-b864-5f9b410d55c8",
       "name": "AI Agent"
@@ -28,8 +28,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2960,
-        240
+        4300,
+        440
       ],
       "id": "476e88b3-218d-48ee-bb1d-4f6f63d6a627",
       "name": "OpenAI Chat Model",
@@ -48,8 +48,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        3140,
-        240
+        4480,
+        440
       ],
       "id": "addc49d4-9e81-4a43-8201-548104947f8b",
       "name": "Window Buffer Memory"
@@ -63,7 +63,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        2460,
+        2900,
         40
       ],
       "id": "683ac31b-617b-4c8d-9f55-be16a6181975",
@@ -77,8 +77,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1,
       "position": [
-        3300,
-        240
+        4640,
+        440
       ],
       "id": "b10f7187-0050-46f1-ac8b-d8f93782fb89",
       "name": "Answer questions with a vector store"
@@ -95,8 +95,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        3480,
-        460
+        4820,
+        660
       ],
       "id": "15720f5b-7278-4baa-8e74-58e675950126",
       "name": "OpenAI Chat Model1",
@@ -156,8 +156,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3200,
-        -260
+        4560,
+        20
       ],
       "id": "9e57c4b9-78c0-46ac-a9f8-83c9a5c032f7",
       "name": "HTTP Request"
@@ -171,8 +171,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3400,
-        -260
+        4760,
+        20
       ],
       "id": "f8d774f9-9c39-4d8a-8e7e-4d8ffc8287da",
       "name": "Edit Fields"
@@ -184,7 +184,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1000,
+        760,
         -480
       ],
       "typeVersion": 1,
@@ -204,8 +204,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1,
       "position": [
-        3140,
-        440
+        4480,
+        640
       ],
       "id": "763c5acf-f163-47b4-895a-d2a561c71f14",
       "name": "Pinecone Vector Store",
@@ -223,8 +223,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        3240,
-        660
+        4580,
+        860
       ],
       "id": "c0b1553c-ec09-457e-8391-869bceac6957",
       "name": "Embeddings OpenAI2",
@@ -340,15 +340,15 @@
     {
       "parameters": {
         "content": "## RAG AI Agent",
-        "height": 1080,
-        "width": 2840,
+        "height": 1460,
+        "width": 3340,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         -220,
-        -520
+        -840
       ],
       "id": "20a2341d-5900-45af-8154-e9209cc84b09",
       "name": "Sticky Note4"
@@ -365,7 +365,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1520,
+        1960,
         380
       ],
       "id": "02d86847-249d-4689-9450-386c6ed69612",
@@ -386,7 +386,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1920,
+        2360,
         180
       ],
       "id": "fc010df2-bbf5-4fbf-9fd2-719e06a840f7",
@@ -404,7 +404,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        1560,
+        2000,
         180
       ],
       "id": "b0115de9-7733-445d-8cc3-08176584d6eb",
@@ -443,17 +443,26 @@
                 "type": "string",
                 "operation": "regex"
               }
+            },
+            {
+              "id": "0d43fb9b-30a8-4d26-b8ca-bf1e81b7fdde",
+              "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+              "rightValue": "=cuentas por cobrar",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
             }
           ],
-          "combinator": "and"
+          "combinator": "or"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        800,
-        0
+        1100,
+        200
       ],
       "id": "f52cb681-f310-49d0-9df6-2ebb5b6284d0",
       "name": "Comprobar si es una pregunta o Consulta"
@@ -485,7 +494,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1280,
+        1720,
         80
       ],
       "id": "97d2d375-5601-44f4-9201-44985b0b153c",
@@ -514,8 +523,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3280,
-        -440
+        4640,
+        -160
       ],
       "id": "f3cc34ba-76f0-4692-aadd-8a89a5681783",
       "name": "Execute Workflow"
@@ -528,8 +537,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        1880,
-        -500
+        4400,
+        -1000
       ],
       "id": "c94252e0-1042-456c-a6ab-e3f7c3e38e08",
       "name": "Basic LLM Chain"
@@ -550,8 +559,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1120,
-        -200
+        3640,
+        -700
       ],
       "id": "74843e5a-a9c1-41a0-adaa-ea4d3adccc8e",
       "name": "HTTP Request1"
@@ -568,8 +577,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2000,
-        -320
+        4520,
+        -820
       ],
       "id": "4392697d-cce2-4425-974d-821138ecf1dc",
       "name": "OpenAI Chat Model4",
@@ -597,8 +606,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2220,
-        -480
+        4740,
+        -980
       ],
       "id": "8b2ad80d-4a02-421e-b872-7aace887ea67",
       "name": "Edit Fields2"
@@ -613,8 +622,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1520,
-        -500
+        4040,
+        -1000
       ],
       "id": "a3853cbb-1387-4823-b752-191166df6e9c",
       "name": "HTTP RequestCliente"
@@ -628,8 +637,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1560,
-        -360
+        1520,
+        -800
       ],
       "id": "89b2b2e5-75cd-4514-b90b-641f4c69583c",
       "name": "Sticky Note5"
@@ -675,8 +684,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1340,
-        -200
+        3860,
+        -700
       ],
       "id": "c4c5bca8-eaad-4333-9147-30a96e17d98d",
       "name": "If"
@@ -689,8 +698,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        1780,
-        -160
+        4300,
+        -660
       ],
       "id": "471d5658-260f-46d3-9579-d6cb0e3943b8",
       "name": "Basic LLM Chain1"
@@ -707,8 +716,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1760,
-        0
+        4280,
+        -500
       ],
       "id": "5c218828-27a9-483c-9b9b-c426829ff7e7",
       "name": "OpenAI Chat Model5",
@@ -729,8 +738,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1540,
-        -140
+        4060,
+        -640
       ],
       "id": "eb18db3c-3d8c-4e52-96a8-ed7e0e12f774",
       "name": "HTTP RequestCliente1"
@@ -762,8 +771,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1360,
-        -800
+        1560,
+        -620
       ],
       "id": "5894545f-0428-4f95-8451-add238a5b7e1",
       "name": "HTTP Request2",
@@ -780,12 +789,235 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1300,
-        -960
+        1060,
+        -780
       ],
       "typeVersion": 1,
       "id": "4a81096b-7066-4934-81ae-8253d2996fd1",
       "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Formatea los datos para dar una explicación breve sobre los impuestos del cliente tu le estaras informando al cliente cuales son sus impuestos por favor haslo de una manera amable y consiza sugiera si tiene preguntas que contacte a su contador, el año es {{ $('Webhook').item.json.body.anio }}, el mes es {{ $('Webhook').item.json.body.mes }} lo puedes convertir a su equivalencia en mes con nombre por ejemplo si es 1 que sea enero si es 2 es febrero y asi sucesivamente, el total de isr es:{{ $json.TotalISR }}, total de Iva es:{{ $json.TotalIVA }}, Total de isr retenido es:{{ $json.TotalISRRetenido }}, el total de iva retenido es: {{ $json.TotalIVARetenido }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1960,
+        -600
+      ],
+      "id": "f83f90ff-1bef-4502-ae4b-73f1d908ebf9",
+      "name": "Basic LLM Chain2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2060,
+        -380
+      ],
+      "id": "7148f15e-83cd-4a58-bb89-d90f3b967f65",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca8da6fb-4730-4452-ab8d-1768fc118dd9",
+              "name": "response.text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2320,
+        -600
+      ],
+      "id": "4e03c5ac-abd4-4ee9-bae7-e0e09877eb3e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+                    "rightValue": "cuales son mis impuestos|me puedes decir mis impuestos",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e4733aba-f9be-41da-89c4-f2b8037d71dd",
+                    "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+                    "rightValue": "cuentas por cobrar|que cuentas tengo por cobrar|cuales son las cuentas por cobrar que tengo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        760,
+        -200
+      ],
+      "id": "d5e8896d-a17d-490b-9320-caf19e5c9f6a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "https://nationally-crack-moth.ngrok-free.app/api/personas/d8f2534c-a16e-44ec-a574-7ba4f75c8255/dashboard/CuentaPorCobrar",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fechaInicio",
+              "value": "01-01-2024"
+            },
+            {
+              "name": "fechaFin",
+              "value": "01-31-2024"
+            },
+            {
+              "name": "numero",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1360,
+        -300
+      ],
+      "id": "dab3dc86-eb8c-4ed4-bbdd-5de6484f6cab",
+      "name": "HTTP Request3",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "q98rnDhTNFyueNLA",
+          "name": "Credenciales OW"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tienes cuentas por cobrar de {{ $json.Items[0].DiasCredito }} días, con un importe de {{ $json.Items[0].Importe }}. De {{ $json.Items[1].DiasCredito }} días, con un importe de {{ $json.Items[1].Importe }}. De {{ $json.Items[2].DiasCredito }} días, con un importe de {{ $json.Items[2].Importe }}. Con {{ $json.Items[3].DiasCredito }} días, con un importe de {{ $json.Items[3].Importe }}. El total de las cuentas por cobrar es de {{ $json.Total }}."
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1740,
+        -280
+      ],
+      "id": "c8c18a1c-0940-46a0-a0e9-6a14054a20c6",
+      "name": "Basic LLM Chain3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1840,
+        -60
+      ],
+      "id": "4dedf813-2d50-4839-9203-97d392ea4307",
+      "name": "OpenAI Chat Model7",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca8da6fb-4730-4452-ab8d-1768fc118dd9",
+              "name": "response.text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2200,
+        -260
+      ],
+      "id": "f40925a3-2dfb-4002-aff3-4e3b2faa236c",
+      "name": "Edit Fields4"
     }
   ],
   "pinData": {
@@ -793,36 +1025,35 @@
       {
         "json": {
           "headers": {
-            "host": "node.sueldosysalarios.me:5678",
-            "connection": "keep-alive",
-            "content-length": "230",
-            "pragma": "no-cache",
-            "cache-control": "no-cache",
+            "x-forwarded-for": "177.242.0.132",
+            "host": "n8n.mosses.mx",
+            "connection": "close",
+            "content-length": "223",
             "sec-ch-ua-platform": "\"Windows\"",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
             "sec-ch-ua": "\"Chromium\";v=\"134\", \"Not:A-Brand\";v=\"24\", \"Google Chrome\";v=\"134\"",
             "content-type": "application/json",
             "sec-ch-ua-mobile": "?0",
             "accept": "*/*",
-            "origin": "http://localhost:8081",
+            "origin": "https://chatbubble-login.lovable.app",
             "sec-fetch-site": "cross-site",
             "sec-fetch-mode": "cors",
             "sec-fetch-dest": "empty",
-            "referer": "http://localhost:8081/",
-            "accept-encoding": "gzip, deflate",
+            "referer": "https://chatbubble-login.lovable.app/",
+            "accept-encoding": "gzip, deflate, br, zstd",
             "accept-language": "es-419,es;q=0.9"
           },
           "params": {},
           "query": {},
           "body": {
-            "user": "6",
-            "telephone": "d8f2534c-a16e-44ec-a574-7ba4f75c8255",
-            "message": "cuales son mis impuestos de enero 2025?",
-            "consulta": "cuales son mis impuestos",
-            "mes": "01",
-            "anio": "2025",
-            "userId": "6",
-            "timestamp": "2025-03-19T15:25:21.828Z"
+            "user": "1",
+            "telephone": "8713931409",
+            "message": "cuales son las cuentas por cobrar que tengo?",
+            "consulta": "cuales son las cuentas por cobrar que tengo?",
+            "mes": "",
+            "anio": "",
+            "userId": "1",
+            "timestamp": "2025-03-26T18:26:20.429Z"
           },
           "webhookUrl": "http://localhost:5678/webhook/de1da178-f744-4130-a7d7-a8d7d981eb71",
           "executionMode": "production"
@@ -1015,7 +1246,7 @@
       "main": [
         [
           {
-            "node": "Comprobar si es una pregunta o Consulta",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -1024,13 +1255,7 @@
     },
     "Comprobar si es una pregunta o Consulta": {
       "main": [
-        [
-          {
-            "node": "HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ],
+        [],
         [
           {
             "node": "Si la pregunta la conoce o no la conoce",
@@ -1098,13 +1323,7 @@
     },
     "Edit Fields2": {
       "main": [
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "HTTP RequestCliente": {
@@ -1171,7 +1390,115 @@
     },
     "HTTP Request2": {
       "main": [
-        []
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Si la pregunta la conoce o no la conoce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -1180,7 +1507,7 @@
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "b10829ca-f1b4-4b21-8149-5ffb117c3392",
+  "versionId": "76af369e-d058-42e1-940f-a189a6fc5f86",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b0af7191bf5d4812cd7495915c68e35575883344075f7bb588cba4a3082f056e"
