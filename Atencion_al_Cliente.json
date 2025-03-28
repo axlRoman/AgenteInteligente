@@ -63,8 +63,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        2900,
-        40
+        2380,
+        -180
       ],
       "id": "683ac31b-617b-4c8d-9f55-be16a6181975",
       "name": "Respond to Webhook"
@@ -136,13 +136,13 @@
     },
     {
       "parameters": {
-        "content": "## Respuestas en memoria\nCuando el agente ya conoce la respuesta a una pregunta ",
+        "content": "## Respuesta a la peticion del cliente",
         "height": 200
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2660,
-        360
+        2420,
+        -400
       ],
       "typeVersion": 1,
       "id": "68166a6c-e909-4847-aa1a-7a5fffae3c65",
@@ -179,8 +179,8 @@
     },
     {
       "parameters": {
-        "content": "## Cuáles son mis impuestos?\nConsulta en la api con el id del cliente cuales son sus impuestos, de igual manera se consulta el nombre",
-        "height": 200
+        "content": "## Cuáles son mis impuestos? // Cuentas por cobrar\nConsulta en la api con el id del cliente cuales son sus impuestos, de igual manera se consulta el nombre",
+        "height": 240
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -322,7 +322,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "de1da178-f744-4130-a7d7-a8d7d981eb71",
+        "path": "AtencionAlCliente",
         "responseMode": "responseNode",
         "options": {}
       },
@@ -365,8 +365,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1960,
-        380
+        1660,
+        360
       ],
       "id": "02d86847-249d-4689-9450-386c6ed69612",
       "name": "OpenAI Chat Model2",
@@ -386,8 +386,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2360,
-        180
+        2060,
+        160
       ],
       "id": "fc010df2-bbf5-4fbf-9fd2-719e06a840f7",
       "name": "Edit Fields1"
@@ -404,8 +404,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        2000,
-        180
+        1700,
+        160
       ],
       "id": "b0115de9-7733-445d-8cc3-08176584d6eb",
       "name": "Agente para Preguntas Desconocidas"
@@ -461,8 +461,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1100,
-        200
+        3880,
+        -260
       ],
       "id": "f52cb681-f310-49d0-9df6-2ebb5b6284d0",
       "name": "Comprobar si es una pregunta o Consulta"
@@ -494,8 +494,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1720,
-        80
+        1420,
+        60
       ],
       "id": "97d2d375-5601-44f4-9201-44985b0b153c",
       "name": "Si la pregunta la conoce o no la conoce"
@@ -637,8 +637,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1520,
-        -800
+        1440,
+        -820
       ],
       "id": "89b2b2e5-75cd-4514-b90b-641f4c69583c",
       "name": "Sticky Note5"
@@ -754,15 +754,15 @@
           "parameters": [
             {
               "name": "fechaInicio",
-              "value": "01-01-2024"
+              "value": "={{ $('Webhook').item.json.body.mes }}-01-{{ $('Webhook').item.json.body.anio }}"
             },
             {
               "name": "fechaFin",
-              "value": "01-31-2024"
+              "value": "={{ $('Webhook').item.json.body.ultimoDia }}"
             },
             {
               "name": "numero",
-              "value": "1"
+              "value": "={{ $('Webhook').item.json.body.mes }}"
             }
           ]
         },
@@ -771,8 +771,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1560,
-        -620
+        1260,
+        -580
       ],
       "id": "5894545f-0428-4f95-8451-add238a5b7e1",
       "name": "HTTP Request2",
@@ -785,27 +785,14 @@
     },
     {
       "parameters": {
-        "content": "## Pruebas a conexion api   "
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1060,
-        -780
-      ],
-      "typeVersion": 1,
-      "id": "4a81096b-7066-4934-81ae-8253d2996fd1",
-      "name": "Sticky Note7"
-    },
-    {
-      "parameters": {
         "promptType": "define",
         "text": "=Formatea los datos para dar una explicación breve sobre los impuestos del cliente tu le estaras informando al cliente cuales son sus impuestos por favor haslo de una manera amable y consiza sugiera si tiene preguntas que contacte a su contador, el año es {{ $('Webhook').item.json.body.anio }}, el mes es {{ $('Webhook').item.json.body.mes }} lo puedes convertir a su equivalencia en mes con nombre por ejemplo si es 1 que sea enero si es 2 es febrero y asi sucesivamente, el total de isr es:{{ $json.TotalISR }}, total de Iva es:{{ $json.TotalIVA }}, Total de isr retenido es:{{ $json.TotalISRRetenido }}, el total de iva retenido es: {{ $json.TotalIVARetenido }}"
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        1960,
-        -600
+        1660,
+        -620
       ],
       "id": "f83f90ff-1bef-4502-ae4b-73f1d908ebf9",
       "name": "Basic LLM Chain2"
@@ -822,8 +809,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2060,
-        -380
+        1760,
+        -400
       ],
       "id": "7148f15e-83cd-4a58-bb89-d90f3b967f65",
       "name": "OpenAI Chat Model6",
@@ -851,8 +838,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2320,
-        -600
+        2020,
+        -620
       ],
       "id": "4e03c5ac-abd4-4ee9-bae7-e0e09877eb3e",
       "name": "Edit Fields3"
@@ -946,8 +933,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1360,
-        -300
+        1060,
+        -320
       ],
       "id": "dab3dc86-eb8c-4ed4-bbdd-5de6484f6cab",
       "name": "HTTP Request3",
@@ -966,8 +953,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        1740,
-        -280
+        1440,
+        -300
       ],
       "id": "c8c18a1c-0940-46a0-a0e9-6a14054a20c6",
       "name": "Basic LLM Chain3"
@@ -984,8 +971,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1840,
-        -60
+        1540,
+        -80
       ],
       "id": "4dedf813-2d50-4839-9203-97d392ea4307",
       "name": "OpenAI Chat Model7",
@@ -1013,8 +1000,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2200,
-        -260
+        1900,
+        -280
       ],
       "id": "f40925a3-2dfb-4002-aff3-4e3b2faa236c",
       "name": "Edit Fields4"
@@ -1028,32 +1015,33 @@
             "x-forwarded-for": "177.242.0.132",
             "host": "n8n.mosses.mx",
             "connection": "close",
-            "content-length": "223",
+            "content-length": "232",
             "sec-ch-ua-platform": "\"Windows\"",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
             "sec-ch-ua": "\"Chromium\";v=\"134\", \"Not:A-Brand\";v=\"24\", \"Google Chrome\";v=\"134\"",
             "content-type": "application/json",
             "sec-ch-ua-mobile": "?0",
             "accept": "*/*",
-            "origin": "https://chatbubble-login.lovable.app",
+            "origin": "http://localhost:8080",
             "sec-fetch-site": "cross-site",
             "sec-fetch-mode": "cors",
             "sec-fetch-dest": "empty",
-            "referer": "https://chatbubble-login.lovable.app/",
+            "referer": "http://localhost:8080/",
             "accept-encoding": "gzip, deflate, br, zstd",
             "accept-language": "es-419,es;q=0.9"
           },
           "params": {},
           "query": {},
           "body": {
-            "user": "1",
-            "telephone": "8713931409",
-            "message": "cuales son las cuentas por cobrar que tengo?",
-            "consulta": "cuales son las cuentas por cobrar que tengo?",
-            "mes": "",
-            "anio": "",
-            "userId": "1",
-            "timestamp": "2025-03-26T18:26:20.429Z"
+            "user": "admin",
+            "telephone": "mossess",
+            "message": "cuales son mis impuestos de enero 2024",
+            "consulta": "cuales son mis impuestos",
+            "mes": "01",
+            "anio": "2024",
+            "ultimoDia": "1/31/2024",
+            "userId": "admin",
+            "timestamp": "2025-03-26T18:54:48.089Z"
           },
           "webhookUrl": "http://localhost:5678/webhook/de1da178-f744-4130-a7d7-a8d7d981eb71",
           "executionMode": "production"
@@ -1256,13 +1244,7 @@
     "Comprobar si es una pregunta o Consulta": {
       "main": [
         [],
-        [
-          {
-            "node": "Si la pregunta la conoce o no la conoce",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Si la pregunta la conoce o no la conoce": {
@@ -1507,7 +1489,7 @@
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "76af369e-d058-42e1-940f-a189a6fc5f86",
+  "versionId": "6a977e58-c96d-4ba6-befa-781880e9808b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b0af7191bf5d4812cd7495915c68e35575883344075f7bb588cba4a3082f056e"

@@ -1,0 +1,898 @@
+{
+  "name": "PF RESICO",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"response\": \"{{ $json.response.text.replace(/\\n+/g, ' ').replace(/['\"]/g, ' ').replace(/['*']+/g, ' ')}}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2900,
+        680
+      ],
+      "id": "e31365a8-6c37-4a82-94a7-b3fa86d55dd0",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "## Inicio del chat \nSe debe de configurar un mensaje de bienvenida inicial desde la web o aplicación donde se desplegara"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        60,
+        620
+      ],
+      "typeVersion": 1,
+      "id": "0d594a43-785d-466c-af7c-c84f438c643a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Buscar información en la base de datos \nLo analisa con un embedding y regresa la informacion transformada y para poder responder a la consulta",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        700,
+        860
+      ],
+      "typeVersion": 1,
+      "id": "772db7a0-e6e6-4c76-9ee6-281c428c8de1",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Respuestas en memoria\nCuando el agente ya conoce la respuesta a una pregunta ",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2880,
+        1200
+      ],
+      "typeVersion": 1,
+      "id": "4a0de7be-74f8-4f3c-b920-8d660dcc4bf5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Cuáles son mis impuestos?\nConsulta en la api con el id del cliente cuales son sus impuestos, de igual manera se consulta el nombre",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        980,
+        360
+      ],
+      "typeVersion": 1,
+      "id": "676ddae6-c310-44a4-9f77-ffb7f29e715b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "responseFormat": "text",
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        420,
+        660
+      ],
+      "id": "e41dcbcf-8539-411c-bda9-222aa6191da8",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "topK": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        560,
+        620
+      ],
+      "id": "813bde2e-aa40-43c1-91f7-ee085a933976",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "pfresico",
+          "mode": "list",
+          "cachedResultName": "pfresico"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        560,
+        760
+      ],
+      "id": "c413c7c1-4f56-44c0-a973-3f38c93e5ac0",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "YkWFte4JVNpkRoSF",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        940
+      ],
+      "id": "70c80423-b83a-454f-9ef0-09596a9fea83",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## RAG AI Agent",
+        "height": 1460,
+        "width": 3340,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e5866f7a-344d-4d8f-b984-3441b17ee572",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2180,
+        1220
+      ],
+      "id": "0d4cada6-c672-4eff-8047-f738b65827d4",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"response.text\" : \"{{ $json.output.replace(/\\n+/g, ' ') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2580,
+        1020
+      ],
+      "id": "14b30dc8-4e2a-4baa-80c2-648256949de2",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $('Webhook').item.json.body.message }}",
+        "options": {
+          "systemMessage": "Use polite and professional language, appropriate for commercial or official contexts.\n\nAlways refuse to answer questions that are not related to this specific knowledge base. You will be penalized if you reference anything outside of the documents you were trained on. Do not respond even if the data is part of exchanged messages but not within the provided context.\n\nAlways use Spanish as the language.\n\nPrioritize the use of the documents you were trained on.\n\nYou are an expert in the field of Accounting and Customer Service and will always respond kindly, making the user feel comfortable and confident.\n\nFor Customer Service, base your approach on the principles from the book The Starbucks Experience by Joseph A. Michelli.\n\nEach time you start a conversation, introduce yourself in a friendly manner to make the user feel at ease. At the beginning of the conversation, introduce yourself as \"Claudia I.A.\"\n\nComparte los links en caso de que este disponible para complementar la información mostrada para el cliente."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2220,
+        1020
+      ],
+      "id": "b2364939-af53-4e8d-b66a-404549b7f74d",
+      "name": "Agente para Preguntas Desconocidas"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.4,
+      "position": [
+        460,
+        420
+      ],
+      "id": "a06a1b48-042d-4ad0-8120-33ebbed43b56",
+      "name": "RAG"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "32f772f6-eb4e-47b7-b2d8-c114248cfc23",
+              "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+              "rightValue": "=cuales son mis impuestos|me puedes decir mis impuestos\n",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            },
+            {
+              "id": "0d43fb9b-30a8-4d26-b8ca-bf1e81b7fdde",
+              "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+              "rightValue": "=cuentas por cobrar",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1320,
+        1040
+      ],
+      "id": "52ceb4fc-5db6-4a16-8401-f60cd59c20eb",
+      "name": "Comprobar si es una pregunta o Consulta"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7026331a-8935-4b2d-a9ab-a626ece02383",
+              "leftValue": "={{ $json.response.text }}",
+              "rightValue": "=No sé",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1940,
+        920
+      ],
+      "id": "cde9de45-ecec-4203-a284-9dd8a91d04f0",
+      "name": "Si la pregunta la conoce o no la conoce"
+    },
+    {
+      "parameters": {
+        "content": "## Modelo LLM\nPor medio de inteligencia artificial se pasan los parametros y el modelo lo formatea para darle un mensaje claro y entendible para el cliente y mostrarle su impuestos de una mejor manera",
+        "height": 180,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        40
+      ],
+      "id": "c1eb44da-fc24-4059-a831-91f67adcf244",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Pregunta no conocida\nEn caso de que no conozca la información intenta buscar algo relacionado a la pregunta siempre y cuando sea información relacionada al entrenamiento ",
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1860,
+        1200
+      ],
+      "typeVersion": 1,
+      "id": "056893c0-c287-40bb-998c-f34e6951a753",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "url": "=https://nationally-crack-moth.ngrok-free.app/api/personas/d8f2534c-a16e-44ec-a574-7ba4f75c8255/dashboard/Impuestos",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fechaInicio",
+              "value": "={{ $('Webhook').item.json.body.mes }}-01-{{ $('Webhook').item.json.body.anio }}"
+            },
+            {
+              "name": "fechaFin",
+              "value": "={{ $('Webhook').item.json.body.ultimoDia }}"
+            },
+            {
+              "name": "numero",
+              "value": "={{ $('Webhook').item.json.body.mes }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1780,
+        220
+      ],
+      "id": "421e27b2-d1f2-4d54-9b89-478ef11714d3",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "q98rnDhTNFyueNLA",
+          "name": "Credenciales OW"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Pruebas a conexion api   "
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "d28eb848-533e-48c6-9a6b-ae68a38ce73c",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Formatea los datos para dar una explicación breve sobre los impuestos del cliente tu le estaras informando al cliente cuales son sus impuestos por favor haslo de una manera amable y consiza sugiera si tiene preguntas que contacte a su contador, el año es {{ $('Webhook').item.json.body.anio }}, el mes es {{ $('Webhook').item.json.body.mes }} lo puedes convertir a su equivalencia en mes con nombre por ejemplo si es 1 que sea enero si es 2 es febrero y asi sucesivamente, el total de isr es:{{ $json.TotalISR }}, total de Iva es:{{ $json.TotalIVA }}, Total de isr retenido es:{{ $json.TotalISRRetenido }}, el total de iva retenido es: {{ $json.TotalIVARetenido }}.\n\nSi los datos de iva, isr y total son 0 o no existen haslo saber dile que contacte con su contador y no muestres nada del resumen anterior solo esta recomendacion por favor"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        2180,
+        240
+      ],
+      "id": "c1219420-9666-47d1-9248-0d15114fbbbc",
+      "name": "Basic LLM Chain2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        460
+      ],
+      "id": "11268d2f-6c2d-45f1-8230-637f2cc97df8",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca8da6fb-4730-4452-ab8d-1768fc118dd9",
+              "name": "response.text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2540,
+        240
+      ],
+      "id": "ea2d50f4-9b54-4b41-996d-13c024e9371a",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+                    "rightValue": "cuales son mis impuestos|me puedes decir mis impuestos",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e4733aba-f9be-41da-89c4-f2b8037d71dd",
+                    "leftValue": "={{ $('Webhook').item.json.body.message.toLowerCase() }}",
+                    "rightValue": "cuentas por cobrar|que cuentas tengo por cobrar|cuales son las cuentas por cobrar que tengo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        980,
+        640
+      ],
+      "id": "71c35d63-fcd3-4d12-9cde-5b590341f18e",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "https://nationally-crack-moth.ngrok-free.app/api/personas/d8f2534c-a16e-44ec-a574-7ba4f75c8255/dashboard/CuentaPorCobrar",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fechaInicio",
+              "value": "01-01-2024"
+            },
+            {
+              "name": "fechaFin",
+              "value": "01-31-2024"
+            },
+            {
+              "name": "numero",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1580,
+        540
+      ],
+      "id": "f5e3fd62-da31-4ec4-925d-6cb03fad8952",
+      "name": "HTTP Request3",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "q98rnDhTNFyueNLA",
+          "name": "Credenciales OW"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tienes cuentas por cobrar de {{ $json.Items[0].DiasCredito }} días, con un importe de {{ $json.Items[0].Importe }}. De {{ $json.Items[1].DiasCredito }} días, con un importe de {{ $json.Items[1].Importe }}. De {{ $json.Items[2].DiasCredito }} días, con un importe de {{ $json.Items[2].Importe }}. Con {{ $json.Items[3].DiasCredito }} días, con un importe de {{ $json.Items[3].Importe }}. El total de las cuentas por cobrar es de {{ $json.Total }}."
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1960,
+        560
+      ],
+      "id": "b7349583-3c2b-4859-b49f-620b0daef63a",
+      "name": "Basic LLM Chain3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2060,
+        780
+      ],
+      "id": "306a97dd-6f0b-4783-8fcd-7ee1448d5c76",
+      "name": "OpenAI Chat Model7",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca8da6fb-4730-4452-ab8d-1768fc118dd9",
+              "name": "response.text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2420,
+        580
+      ],
+      "id": "f4207819-9438-4411-b781-309edada5498",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "pfResico",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        80,
+        820
+      ],
+      "id": "9717758b-08cf-4f18-bf55-00e362c76181",
+      "name": "Webhook",
+      "webhookId": "a16ac81c-790e-44dc-8980-0e0962de3c8a"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "RAG",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "RAG",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente para Preguntas Desconocidas",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente para Preguntas Desconocidas": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RAG": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comprobar si es una pregunta o Consulta": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Si la pregunta la conoce o no la conoce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Si la pregunta la conoce o no la conoce": {
+      "main": [
+        [
+          {
+            "node": "Agente para Preguntas Desconocidas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Si la pregunta la conoce o no la conoce",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Si la pregunta la conoce o no la conoce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "RAG",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "182692d1-71f9-499f-a74a-37dfcc180cb3",
+  "meta": {
+    "instanceId": "b0af7191bf5d4812cd7495915c68e35575883344075f7bb588cba4a3082f056e"
+  },
+  "id": "L4kQp5TA7jAGJ89V",
+  "tags": []
+}
