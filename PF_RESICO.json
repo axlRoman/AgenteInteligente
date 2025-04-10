@@ -3,17 +3,34 @@
   "nodes": [
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"response\": \"{{ $json.response.text.replace(/\\n+/g, ' ').replace(/['\"]/g, ' ').replace(/['*']+/g, ' ')}}\"\n}",
+        "httpMethod": "POST",
+        "path": "pfResico",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        160,
+        720
+      ],
+      "id": "9717758b-08cf-4f18-bf55-00e362c76181",
+      "name": "Webhook",
+      "webhookId": "a16ac81c-790e-44dc-8980-0e0962de3c8a"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={\n  \"response\": \"{{ $json.response.text }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        2900,
-        680
+        2980,
+        620
       ],
-      "id": "e31365a8-6c37-4a82-94a7-b3fa86d55dd0",
+      "id": "1a3ddf71-70d1-46a0-9ea3-bd42a7e7da86",
       "name": "Respond to Webhook"
     },
     {
@@ -22,11 +39,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        60,
-        620
+        140,
+        560
       ],
       "typeVersion": 1,
-      "id": "0d594a43-785d-466c-af7c-c84f438c643a",
+      "id": "204402af-952e-4e09-8b6d-18c97b25df9a",
       "name": "Sticky Note"
     },
     {
@@ -36,26 +53,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        700,
-        860
+        780,
+        800
       ],
       "typeVersion": 1,
-      "id": "772db7a0-e6e6-4c76-9ee6-281c428c8de1",
+      "id": "f9cb1780-f511-4232-b30f-d371797c3f4e",
       "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "content": "## Respuestas en memoria\nCuando el agente ya conoce la respuesta a una pregunta ",
-        "height": 200
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2880,
-        1200
-      ],
-      "typeVersion": 1,
-      "id": "4a0de7be-74f8-4f3c-b920-8d660dcc4bf5",
-      "name": "Sticky Note2"
     },
     {
       "parameters": {
@@ -64,11 +67,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        980,
-        360
+        1060,
+        300
       ],
       "typeVersion": 1,
-      "id": "676ddae6-c310-44a4-9f77-ffb7f29e715b",
+      "id": "d0ff414c-3d37-41ac-8d9b-4c5d6e25af9b",
       "name": "Sticky Note3"
     },
     {
@@ -79,6 +82,7 @@
           "value": "gpt-4o-mini"
         },
         "options": {
+          "maxTokens": 250,
           "responseFormat": "text",
           "temperature": 0
         }
@@ -86,10 +90,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        420,
-        660
+        480,
+        60
       ],
-      "id": "e41dcbcf-8539-411c-bda9-222aa6191da8",
+      "id": "fa35f727-97a3-423a-b30f-32220957e5ff",
       "name": "OpenAI Chat Model3",
       "credentials": {
         "openAiApi": {
@@ -105,10 +109,10 @@
       "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
       "typeVersion": 1,
       "position": [
-        560,
-        620
+        620,
+        20
       ],
-      "id": "813bde2e-aa40-43c1-91f7-ee085a933976",
+      "id": "6dec8e1b-e499-4e6f-9638-428a4b18be8c",
       "name": "Vector Store Retriever"
     },
     {
@@ -124,10 +128,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1,
       "position": [
-        560,
-        760
+        620,
+        160
       ],
-      "id": "c413c7c1-4f56-44c0-a973-3f38c93e5ac0",
+      "id": "d1d924ef-add2-414c-92d0-342dc78eb3f7",
       "name": "Pinecone Vector Store1",
       "credentials": {
         "pineconeApi": {
@@ -143,10 +147,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        580,
-        940
+        640,
+        340
       ],
-      "id": "70c80423-b83a-454f-9ef0-09596a9fea83",
+      "id": "c175bf87-d23b-4120-b9e0-8b7841941cb5",
       "name": "Embeddings OpenAI3",
       "credentials": {
         "openAiApi": {
@@ -165,10 +169,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        80,
+        -60
       ],
-      "id": "e5866f7a-344d-4d8f-b984-3441b17ee572",
+      "id": "6ca53360-6ed3-4f0c-8059-37cc699df94c",
       "name": "Sticky Note4"
     },
     {
@@ -183,10 +187,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2180,
-        1220
+        2260,
+        1160
       ],
-      "id": "0d4cada6-c672-4eff-8047-f738b65827d4",
+      "id": "c721a75d-c57b-46ae-ae4c-ac92238d6267",
       "name": "OpenAI Chat Model2",
       "credentials": {
         "openAiApi": {
@@ -198,49 +202,33 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={\n  \"response.text\" : \"{{ $json.output.replace(/\\n+/g, ' ') }}\"\n}",
+        "jsonOutput": "={\n  \"response.text\" : \"{{ $('AI Agent').item.json.output.replace(/\\n+/g, ' ') }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2580,
-        1020
+        2660,
+        960
       ],
-      "id": "14b30dc8-4e2a-4baa-80c2-648256949de2",
+      "id": "8e0b82b7-0312-4c9e-8fb2-ed3bd1c23d5b",
       "name": "Edit Fields1"
     },
     {
       "parameters": {
-        "agent": "conversationalAgent",
         "promptType": "define",
         "text": "={{ $('Webhook').item.json.body.message }}",
         "options": {
-          "systemMessage": "Use polite and professional language, appropriate for commercial or official contexts.\n\nAlways refuse to answer questions that are not related to this specific knowledge base. You will be penalized if you reference anything outside of the documents you were trained on. Do not respond even if the data is part of exchanged messages but not within the provided context.\n\nAlways use Spanish as the language.\n\nPrioritize the use of the documents you were trained on.\n\nYou are an expert in the field of Accounting and Customer Service and will always respond kindly, making the user feel comfortable and confident.\n\nFor Customer Service, base your approach on the principles from the book The Starbucks Experience by Joseph A. Michelli.\n\nEach time you start a conversation, introduce yourself in a friendly manner to make the user feel at ease. At the beginning of the conversation, introduce yourself as \"Claudia I.A.\"\n\nComparte los links en caso de que este disponible para complementar la información mostrada para el cliente."
+          "systemPromptTemplate": "=Use the following pieces of context to answer the users question.\nIf you don't know the answer, just say that you don't know, don't try to make up an answer.\n----------------\n {{ $json.output }}"
         }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        2220,
-        1020
-      ],
-      "id": "b2364939-af53-4e8d-b66a-404549b7f74d",
-      "name": "Agente para Preguntas Desconocidas"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.body.message }}",
-        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
       "typeVersion": 1.4,
       "position": [
-        460,
-        420
+        520,
+        -180
       ],
-      "id": "a06a1b48-042d-4ad0-8120-33ebbed43b56",
+      "id": "feea100c-33fb-4ab4-bf08-1493b7e1c9cf",
       "name": "RAG"
     },
     {
@@ -279,10 +267,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1320,
-        1040
+        1400,
+        980
       ],
-      "id": "52ceb4fc-5db6-4a16-8401-f60cd59c20eb",
+      "id": "ff3dfacd-1a68-4664-b272-701c21692ed5",
       "name": "Comprobar si es una pregunta o Consulta"
     },
     {
@@ -312,10 +300,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1940,
-        920
+        2020,
+        860
       ],
-      "id": "cde9de45-ecec-4203-a284-9dd8a91d04f0",
+      "id": "22120839-8196-4a19-9c14-8afed519c4fb",
       "name": "Si la pregunta la conoce o no la conoce"
     },
     {
@@ -327,10 +315,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1740,
-        40
+        1820,
+        -20
       ],
-      "id": "c1eb44da-fc24-4059-a831-91f67adcf244",
+      "id": "885304d5-8f32-488c-a287-a508249c504b",
       "name": "Sticky Note5"
     },
     {
@@ -340,11 +328,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1860,
-        1200
+        1940,
+        1140
       ],
       "typeVersion": 1,
-      "id": "056893c0-c287-40bb-998c-f34e6951a753",
+      "id": "8bffe02d-37b3-4eba-b93a-0759b406bfc6",
       "name": "Sticky Note6"
     },
     {
@@ -374,10 +362,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1780,
-        220
+        1860,
+        160
       ],
-      "id": "421e27b2-d1f2-4d54-9b89-478ef11714d3",
+      "id": "5c6181b1-ca3b-4b7e-8f44-2def59b30ff5",
       "name": "HTTP Request2",
       "credentials": {
         "httpBasicAuth": {
@@ -392,25 +380,25 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1280,
-        60
+        1360,
+        0
       ],
       "typeVersion": 1,
-      "id": "d28eb848-533e-48c6-9a6b-ae68a38ce73c",
+      "id": "3d4f0011-f6f0-4915-806c-c2379ff9e627",
       "name": "Sticky Note7"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Formatea los datos para dar una explicación breve sobre los impuestos del cliente tu le estaras informando al cliente cuales son sus impuestos por favor haslo de una manera amable y consiza sugiera si tiene preguntas que contacte a su contador, el año es {{ $('Webhook').item.json.body.anio }}, el mes es {{ $('Webhook').item.json.body.mes }} lo puedes convertir a su equivalencia en mes con nombre por ejemplo si es 1 que sea enero si es 2 es febrero y asi sucesivamente, el total de isr es:{{ $json.TotalISR }}, total de Iva es:{{ $json.TotalIVA }}, Total de isr retenido es:{{ $json.TotalISRRetenido }}, el total de iva retenido es: {{ $json.TotalIVARetenido }}.\n\nSi los datos de iva, isr y total son 0 o no existen haslo saber dile que contacte con su contador y no muestres nada del resumen anterior solo esta recomendacion por favor"
+        "text": "=Formatea los datos para dar una explicación breve sobre los impuestos del cliente tu le estaras informando al cliente cuales son sus impuestos por favor haslo de una manera amable y consiza sugiera si tiene preguntas que contacte a su contador, el año es {{ $('Webhook').item.json.body.anio }}, el mes es {{ $('Webhook').item.json.body.mes }} lo puedes convertir a su equivalencia en mes con nombre por ejemplo si es 1 que sea enero si es 2 es febrero y asi sucesivamente, el total de isr es:{{ $json.TotalISR }}, total de Iva es:{{ $json.TotalIVA }}, Total de isr retenido es:{{ $json.TotalISRRetenido }}, el total de iva retenido es: {{ $json.TotalIVARetenido }}\n\nSi los datos de iva, isr y total son 0 o no existen haslo saber dile que contacte con su contador y no muestres nada del resumen anterior solo esta recomendacion por favor"
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        2180,
-        240
+        2260,
+        180
       ],
-      "id": "c1219420-9666-47d1-9248-0d15114fbbbc",
+      "id": "268c5baf-b78e-4c37-a87a-3f9ea63fe35f",
       "name": "Basic LLM Chain2"
     },
     {
@@ -425,10 +413,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2280,
-        460
+        2360,
+        400
       ],
-      "id": "11268d2f-6c2d-45f1-8230-637f2cc97df8",
+      "id": "33f73561-6f34-43ce-8056-a6aeff8dbf78",
       "name": "OpenAI Chat Model6",
       "credentials": {
         "openAiApi": {
@@ -454,10 +442,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2540,
-        240
+        2620,
+        180
       ],
-      "id": "ea2d50f4-9b54-4b41-996d-13c024e9371a",
+      "id": "b05c5eef-12df-407f-a9f4-fca92875ffeb",
       "name": "Edit Fields3"
     },
     {
@@ -516,10 +504,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        980,
-        640
+        1060,
+        580
       ],
-      "id": "71c35d63-fcd3-4d12-9cde-5b590341f18e",
+      "id": "9f6ccf91-1f5a-482b-8a32-3cf19d3aa616",
       "name": "Switch"
     },
     {
@@ -549,10 +537,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1580,
-        540
+        1660,
+        480
       ],
-      "id": "f5e3fd62-da31-4ec4-925d-6cb03fad8952",
+      "id": "781c6c6a-4250-4e92-b321-9c39fb0efa56",
       "name": "HTTP Request3",
       "credentials": {
         "httpBasicAuth": {
@@ -569,10 +557,10 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        1960,
-        560
+        2040,
+        500
       ],
-      "id": "b7349583-3c2b-4859-b49f-620b0daef63a",
+      "id": "f0229853-6e73-4a1d-ba18-47b5c2301284",
       "name": "Basic LLM Chain3"
     },
     {
@@ -587,10 +575,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2060,
-        780
+        2140,
+        720
       ],
-      "id": "306a97dd-6f0b-4783-8fcd-7ee1448d5c76",
+      "id": "129f31cf-ad5f-48ed-afe9-dff770bc69ca",
       "name": "OpenAI Chat Model7",
       "credentials": {
         "openAiApi": {
@@ -616,32 +604,234 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2420,
-        580
+        2500,
+        520
       ],
-      "id": "f4207819-9438-4411-b781-309edada5498",
+      "id": "0dc36dbc-fc30-493c-a358-95f8d00f6fdc",
       "name": "Edit Fields4"
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "pfResico",
-        "responseMode": "responseNode",
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.userId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2380,
+        1160
+      ],
+      "id": "e6267210-1d71-45ef-bfb1-15763c470921",
+      "name": "Window Buffer Memory1"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "Utiliza un lenguaje cortés y profesional, adecuado para contextos comerciales u oficiales.\n\nPriorice el uso de los documentos en los que recibió capacitación.\nEres  Experto en el tema de Contabilidad y Atención al cliente y siempre contestaras de manera amable y siempre harás sentir al usuario en confianza\n\nA cada consulta muéstrala como la mas actual por ejemplo el año en el que estamos actualmente es 2025 muestra que la información esta actualizada\n\nSiempre utiliza la información que tienes en tu base de datos de vector store antes de realizar una respuesta fuera de ese contexto\n\nNo respondas preguntas que estén fuera del contexto con el que fuiste creado extrae la información desde la base de datos para mejor respuesta\n\nPor favor cuando te pregunten información y si la información es sobre México por favor omite la palabra o frece \"En México\" y no respondas consultas que te hagan de algún otro país "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        460,
+        620
+      ],
+      "id": "66096665-350e-4e53-8c82-932cd750fafe",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "responseFormat": "text",
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        420,
+        840
+      ],
+      "id": "cd9f6e35-6ac3-4e4f-89ad-d348349f8455",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.user }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        580,
+        840
+      ],
+      "id": "83eecde7-fdaf-4cbc-9346-324f256d3401",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "pfresico",
+          "mode": "list",
+          "cachedResultName": "pfresico"
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        500,
+        1200
+      ],
+      "id": "d0c7892d-1b4a-465b-bc34-4171ea17f9f8",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "YkWFte4JVNpkRoSF",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        1340
+      ],
+      "id": "149d00b7-ff82-4217-9752-9ffb77d7a67b",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        780,
+        1240
+      ],
+      "id": "6318cdf6-52bc-4ba0-bfac-49c36d6ce54b",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "SueldosySalarios",
+        "description": "Busca en la base de datos para extraer la informacion de Sueldos y Salarios de la base de datos de Pinecone para las respuestas para las consultas del usuario ",
+        "topK": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        640,
+        1020
+      ],
+      "id": "9f306347-a01f-4e36-afbe-f946890fed44",
+      "name": "Base de datos"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.4,
       "position": [
         80,
-        820
+        -60
       ],
-      "id": "9717758b-08cf-4f18-bf55-00e362c76181",
-      "name": "Webhook",
-      "webhookId": "a16ac81c-790e-44dc-8980-0e0962de3c8a"
+      "id": "f2cb65cb-a49b-4c9c-9cc1-6d436b4fc354",
+      "name": "Redis Chat Memory"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-for": "177.242.0.132",
+            "host": "n8n.mosses.mx",
+            "connection": "close",
+            "content-length": "244",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Chromium\";v=\"134\", \"Not:A-Brand\";v=\"24\", \"Google Chrome\";v=\"134\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "accept": "*/*",
+            "origin": "null",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "es-419,es;q=0.9"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "user": "d8f2534c-a16e-44ec-a574-7ba4f75c8255",
+            "message": "cuales son mis impuestos de febrero?",
+            "consulta": "cuales son mis impuestos",
+            "mes": "02",
+            "nombreMes": "febrero",
+            "anio": "2025",
+            "ultimoDia": "2/28/2025",
+            "timestamp": "2025-04-03T17:06:18.896Z"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/pfResico",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "OpenAI Chat Model3": {
       "ai_languageModel": [
         [
@@ -686,33 +876,11 @@
         ]
       ]
     },
-    "OpenAI Chat Model2": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Agente para Preguntas Desconocidas",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Edit Fields1": {
       "main": [
         [
           {
             "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Agente para Preguntas Desconocidas": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
@@ -746,7 +914,7 @@
       "main": [
         [
           {
-            "node": "Agente para Preguntas Desconocidas",
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
@@ -808,7 +976,7 @@
       "main": [
         [
           {
-            "node": "Basic LLM Chain2",
+            "node": "HTTP Request2",
             "type": "main",
             "index": 0
           }
@@ -873,12 +1041,78 @@
         ]
       ]
     },
-    "Webhook": {
+    "AI Agent": {
       "main": [
         [
           {
             "node": "RAG",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Base de datos",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Base de datos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base de datos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -889,8 +1123,9 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "182692d1-71f9-499f-a74a-37dfcc180cb3",
+  "versionId": "88cf417b-a8ef-4b96-953c-3f40631ac276",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "b0af7191bf5d4812cd7495915c68e35575883344075f7bb588cba4a3082f056e"
   },
   "id": "L4kQp5TA7jAGJ89V",

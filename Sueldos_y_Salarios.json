@@ -3,8 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"response\": \"{{ $json.response.text.replace(/\\n+/g, ' ').replace(/['\"]/g, ' ').replace(/['*']+/g, ' ')}}\"\n}",
+        "respondWith": "text",
+        "responseBody": "={\n  \"response\": \"{{ $json.response.text }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
@@ -50,8 +50,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2880,
-        1200
+        3520,
+        1020
       ],
       "typeVersion": 1,
       "id": "4d046652-59fd-4b52-afec-9cd316ccd54f",
@@ -79,6 +79,7 @@
           "value": "gpt-4o-mini"
         },
         "options": {
+          "maxTokens": 250,
           "responseFormat": "text",
           "temperature": 0
         }
@@ -86,8 +87,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        420,
-        660
+        400,
+        120
       ],
       "id": "504e92ae-ced6-40fe-bbac-5280c94b07b7",
       "name": "OpenAI Chat Model3",
@@ -105,8 +106,8 @@
       "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
       "typeVersion": 1,
       "position": [
-        560,
-        620
+        540,
+        80
       ],
       "id": "c258ad00-ece6-4825-a019-25842acaa298",
       "name": "Vector Store Retriever"
@@ -124,8 +125,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1,
       "position": [
-        560,
-        760
+        540,
+        220
       ],
       "id": "8063be58-04a9-4545-a5df-40635138d03e",
       "name": "Pinecone Vector Store1",
@@ -143,8 +144,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        580,
-        940
+        560,
+        400
       ],
       "id": "b900dcf4-702d-4ab6-a047-8780d4286f19",
       "name": "Embeddings OpenAI3",
@@ -198,7 +199,7 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={\n  \"response.text\" : \"{{ $json.output.replace(/\\n+/g, ' ') }}\"\n}",
+        "jsonOutput": "={\n  \"response.text\" : \"{{ $('AI Agent').item.json.output.replace(/\\n+/g, ' ') }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -212,33 +213,17 @@
     },
     {
       "parameters": {
-        "agent": "conversationalAgent",
         "promptType": "define",
         "text": "={{ $('Webhook').item.json.body.message }}",
         "options": {
-          "systemMessage": "Use polite and professional language, appropriate for commercial or official contexts.\n\nAlways refuse to answer questions that are not related to this specific knowledge base. You will be penalized if you reference anything outside of the documents you were trained on. Do not respond even if the data is part of exchanged messages but not within the provided context.\n\nAlways use Spanish as the language.\n\nPrioritize the use of the documents you were trained on.\n\nYou are an expert in the field of Accounting and Customer Service and will always respond kindly, making the user feel comfortable and confident.\n\nFor Customer Service, base your approach on the principles from the book The Starbucks Experience by Joseph A. Michelli.\n\nEach time you start a conversation, introduce yourself in a friendly manner to make the user feel at ease. At the beginning of the conversation, introduce yourself as \"Claudia I.A.\"\n\nComparte los links en caso de que este disponible para complementar la información mostrada para el cliente."
+          "systemPromptTemplate": "=Use the following pieces of context to answer the users question.\nIf you don't know the answer, just say that you don't know, don't try to make up an answer.\n----------------\n {{ $json.output }}"
         }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        2220,
-        1020
-      ],
-      "id": "8ff943a0-6d52-446a-813c-2c2e283aa5db",
-      "name": "Agente para Preguntas Desconocidas"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.body.message }}",
-        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
       "typeVersion": 1.4,
       "position": [
-        460,
-        420
+        440,
+        -120
       ],
       "id": "47b61d3b-168d-483c-8df1-b8343e481ea8",
       "name": "RAG"
@@ -632,12 +617,181 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        120,
+        -260,
         820
       ],
       "id": "04c1ca21-d8f5-4367-a880-641d53474333",
       "name": "Webhook",
       "webhookId": "8c974e5c-21d7-4149-9846-9f31c1f58960"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.userId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2300,
+        1220
+      ],
+      "id": "7948863c-d4ab-460d-ad9e-da5a189c2432",
+      "name": "Window Buffer Memory1"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "Utiliza un lenguaje cortés y profesional, adecuado para contextos comerciales u oficiales.\n\nPriorice el uso de los documentos en los que recibió capacitación.\nEres  Experto en el tema de Contabilidad y Atención al cliente y siempre contestaras de manera amable y siempre harás sentir al usuario en confianza\n\nA cada consulta muéstrala como la mas actual por ejemplo el año en el que estamos actualmente es 2025 muestra que la información esta actualizada\n\nSiempre utiliza la información que tienes en tu base de datos de vector store antes de realizar una respuesta fuera de ese contexto\n\nNo respondas preguntas que estén fuera del contexto con el que fuiste creado extrae la información desde la base de datos para mejor respuesta\n\nPor favor cuando te pregunten información y si la información es sobre México por favor omite la palabra o frece \"En México\" y no respondas consultas que te hagan de algún otro país "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        380,
+        680
+      ],
+      "id": "252f1f87-624e-4652-a3a4-366046e784b8",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "responseFormat": "text",
+          "temperature": 0.5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        340,
+        900
+      ],
+      "id": "3a00f425-150b-4a0b-9e64-f68e6c0c6a16",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.user }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        500,
+        900
+      ],
+      "id": "83d8a624-6884-4e67-a232-da6480e7e5f9",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "sueldosysalarios",
+          "mode": "list",
+          "cachedResultName": "sueldosysalarios"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        420,
+        1260
+      ],
+      "id": "792c0f6f-33d5-4253-997b-f5f50501941b",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "YkWFte4JVNpkRoSF",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        540,
+        1400
+      ],
+      "id": "04561caa-82a2-46a5-9530-097118345e83",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        1300
+      ],
+      "id": "b644c91e-5ca8-48eb-9cb8-3380bcc12959",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CfW0f9FhVHbZ7ZyP",
+          "name": "OpenAi account Fidel"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "SueldosySalarios",
+        "description": "Busca en la base de datos para extraer la informacion de Sueldos y Salarios de la base de datos de Pinecone para las respuestas para las consultas del usuario ",
+        "topK": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        560,
+        1080
+      ],
+      "id": "78c0daa6-0da5-4927-be37-5c7c7074aeaf",
+      "name": "Base de datos"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4fd7fe4d-e70c-47b1-bd0a-ccd2eaa4b989",
+      "name": "Redis Chat Memory"
     }
   ],
   "pinData": {},
@@ -688,13 +842,7 @@
     },
     "OpenAI Chat Model2": {
       "ai_languageModel": [
-        [
-          {
-            "node": "Agente para Preguntas Desconocidas",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Edit Fields1": {
@@ -702,17 +850,6 @@
         [
           {
             "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Agente para Preguntas Desconocidas": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
@@ -746,7 +883,7 @@
       "main": [
         [
           {
-            "node": "Agente para Preguntas Desconocidas",
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
@@ -808,7 +945,7 @@
       "main": [
         [
           {
-            "node": "Basic LLM Chain2",
+            "node": "HTTP Request2",
             "type": "main",
             "index": 0
           }
@@ -877,8 +1014,95 @@
       "main": [
         [
           {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Window Buffer Memory1": {
+      "ai_memory": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
             "node": "RAG",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Base de datos",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Base de datos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base de datos": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -889,8 +1113,9 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "bb603bab-c3e1-4e16-a2aa-653e16a17c03",
+  "versionId": "2bd01706-6312-4439-ac97-10ecde53256d",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "b0af7191bf5d4812cd7495915c68e35575883344075f7bb588cba4a3082f056e"
   },
   "id": "lkD9wEajRiV4DwT9",
