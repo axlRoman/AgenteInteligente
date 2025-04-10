@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat OW</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilo de la burbuja de chat */
+        .chat-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: hsl(32 100% 50%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-bubble i {
+            color: white;
+            font-size: 24px;
+        }
+
+        /* Estilo del contenedor del chat */
+        .chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .chat-container.active {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .chat-header {
+            background-color: hsl(32 100% 50%);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .close-chat {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .received {
+            background-color: #f1f1f1;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .sent {
+            background-color: hsl(32 100% 50%);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #f1f1f1;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eaeaea;
+            background-color: white;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .send-button {
+            background-color: hsl(32 100% 50%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-footer {
+            padding: 10px 15px;
+            background-color: #f8f8f8;
+            border-top: 1px solid #eaeaea;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+
+        /* Overlay para cerrar al hacer clic fuera */
+        .chat-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: transparent;
+            z-index: 999;
+            display: none;
+        }
+
+        .chat-overlay.active {
+            display: block;
+        }
+
+        /* Iconos */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .icon-chat {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E");
+        }
+
+        .icon-close {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E");
+        }
+
+        .icon-send {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/%3E%3C/svg%3E");
+        }
+
+        .icon-minimize {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13H5v-2h14v2z'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay para cerrar al hacer clic fuera -->
+    <div class="chat-overlay" id="chatOverlay"></div>
+
+    <!-- Burbuja de chat -->
+    <div class="chat-bubble" id="chatBubble">
+        <i class="icon icon-chat"></i>
+    </div>
+
+    <!-- Contenedor del chat -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header" id="chatHeader">
+            <span>Asistente Virtual</span>
+            <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="messageInput" placeholder="Introduce tu mensaje...">
+            <button class="send-button" id="sendButton">
+                <i class="icon icon-send"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Variables
+        const chatBubble = document.getElementById('chatBubble');
+        const chatContainer = document.getElementById('chatContainer');
+        const chatHeader = document.getElementById('chatHeader');
+        const closeChat = document.getElementById('closeChat');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatOverlay = document.getElementById('chatOverlay');
+
+
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                personaFiscal: params.get("personaFiscal"),
+                N8N_ENDPOINT: params.get("n8nEndpoint")
+            };
+        }
+        
+        const { personaFiscal, N8N_ENDPOINT } = getQueryParams();
+        
+
+        // Cambiar el endpoint según el régimen fiscal
+        /*if (regimenFiscal === "resico") {
+            N8N_ENDPOINT = "https://n8n.mosses.mx/webhook/pfResico";
+        } else if (regimenFiscal === "sueldos") {
+            N8N_ENDPOINT = "https://n8n.mosses.mx/webhook/SueldosYSalarios";
+        } else if (regimenFiscal === "atencion") {
+            N8N_ENDPOINT = "https://n8n.mosses.mx/webhook/AtencionAlCliente";
+        }*/
+
+        // Configuración del cliente
+        //const personaFiscal = "d8f2534c-a16e-44ec-a574-7ba4f75c8255";
+
+        // URL de n8n
+        
+        //https://n8n.mosses.mx/webhook/AtencionAlCliente
+        //const N8N_ENDPOINT = "https://n8n.mosses.mx/webhook/pfResico";
+        //const N8N_ENDPOINT = "https://n8n.mosses.mx/webhook/SueldosYSalarios";
+        //const N8N_ENDPOINT = "http://localhost:5678/webhook/bb390886-e77c-4064-b48c-5cf1a9ec4604";
+
+        // Nombres de los meses en español
+        const meses = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        // Mostrar/ocultar chat
+        function toggleChat() {
+            const isActive = chatContainer.classList.contains('active');
+            if (isActive) {
+                closeChatContainer();
+            } else {
+                openChatContainer();
+            }
+        }
+
+        // Función para comunicarse con la página padre
+        function notifyParent(expanded) {
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'toggleChat',
+                    expanded: expanded
+                }, '*');
+            }
+        }
+
+        function openChatContainer() {
+            chatContainer.classList.add('active');
+            chatOverlay.classList.add('active');
+            setTimeout(() => messageInput.focus(), 300);
+            notifyParent(true);
+        }
+
+        function closeChatContainer() {
+            chatContainer.classList.remove('active');
+            chatOverlay.classList.remove('active');
+            notifyParent(false);
+        }
+
+        // Event listeners
+        chatBubble.addEventListener('click', toggleChat);
+        
+        // Escucha eventos de la página padre para cerrar el chat
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'forceClose') {
+                closeChatContainer();
+            }
+        });
+
+        
+        
+
+        // Cerrar al presionar Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && chatContainer.classList.contains('active')) {
+                closeChatContainer();
+            }
+        });
+
+        // Enviar mensaje al presionar Enter o hacer clic en el botón
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        sendButton.addEventListener('click', sendMessage);
+
+        // Función para extraer datos del mensaje
+        function extractData(text) {
+            const meses = {
+                "enero": 0, "febrero": 1, "marzo": 2, "abril": 3, "mayo": 4, "junio": 5,
+                "julio": 6, "agosto": 7, "septiembre": 8, "octubre": 9, "noviembre": 10, "diciembre": 11
+            };
+
+            const consultaRegex = /cuales son mis impuestos/i;
+            const mesRegex = new RegExp(Object.keys(meses).join("|"), "i");
+            const anioRegex = /\b(20\d{2})\b/;
+
+            const consultaMatch = text.match(consultaRegex);
+            const mesMatch = text.match(mesRegex);
+            const anioMatch = text.match(anioRegex);
+
+            const mesNombre = mesMatch ? mesMatch[0].toLowerCase() : "";
+            const anio = anioMatch ? parseInt(anioMatch[0]) : new Date().getFullYear();
+            const mes = mesNombre ? meses[mesNombre] : null;
+
+            let ultimoDia = null;
+            if (mes !== null) {
+                ultimoDia = new Date(anio, mes + 1, 0).getDate();
+            }
+
+            return {
+                consulta: consultaMatch ? consultaMatch[0] : text,
+                mes: mes !== null ? (mes + 1).toString().padStart(2, "0") : "",
+                anio: anio.toString(),
+                ultimoDia: ultimoDia ? `${mes + 1}/${ultimoDia}/${anio}` : "",
+                nombreMes: mesNombre || ""
+            };
+        }
+
+        // Función para detectar el tipo de consulta
+        function detectarTipoConsulta(message) {
+            const lowerMsg = message.toLowerCase();
+            
+            if (lowerMsg.includes("declaración") || lowerMsg.includes("declaracion")) {
+                return "declaración anual";
+            } else if (lowerMsg.includes("sueldo") || lowerMsg.includes("salario") || lowerMsg.includes("nómina") || lowerMsg.includes("nomina")) {
+                return "sueldos y salarios";
+            } else if (lowerMsg.includes("factura") || lowerMsg.includes("cfdi")) {
+                return "facturación";
+            } else {
+                return "consulta general";
+            }
+        }
+
+        // Función para enviar mensaje
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message === '') return;
+
+            addMessage(message, 'sent');
+            messageInput.value = '';
+            showTypingIndicator();
+
+            try {
+                const extractedData = extractData(message);
+                
+                const response = await fetch(N8N_ENDPOINT, {  
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        user: personaFiscal,
+                        message: message,
+                        mes: extractedData.mes,
+                        nombreMes: extractedData.nombreMes,
+                        anio: extractedData.anio,
+                        ultimoDia: extractedData.ultimoDia,
+                        timestamp: new Date().toISOString(),
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.text();
+                hideTypingIndicator();
+                
+                if (data){//&& data.response) {
+                    addMessage(data, 'received');
+                } else {
+                    //addMessage(data.response, 'received');
+                    addMessage('Recibí tu mensaje. ¿En qué más puedo ayudarte?', 'received');
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                console.error('Error al enviar mensaje:', error);
+                addMessage('Lo siento, hubo un problema al procesar tu mensaje. Por favor intenta nuevamente.', 'received');
+            }
+        }
+
+
+        // Función para detectar URLs y convertirlas en enlaces
+        function linkify(text) {
+            const urlRegex = /\b(?:https:\/\/|www\.)[a-zA-Z0-9.-]+\.[a-z]{2,}(?:\/\S*)?/gi;
+            return text.replace(urlRegex, function(url) {
+              let link = url.startsWith('http') ? url : 'https://' + url;
+              return `<a href="${link}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`;
+            });
+          }
+
+        // Función para añadir mensaje al chat
+        function addMessage(text, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', type);
+
+            // Reemplazar saltos de línea con <br> para que se vean en HTML
+            messageDiv.innerHTML = linkify(
+                text
+                .replace(/{|}|"/g, '')  // Elimina los caracteres {, }, "
+                .replace(/\n/, '')  // Elimina el primer salto de línea
+                .replace(/\n/g, '<br>')  // Reemplaza los saltos de línea por <br>
+                .replace(/response:/, '')  // Elimina la palabra "response"
+                .replace(/ en México,/, '')  // Elimina la france "en México,"
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Pone en negritas cualquier texto entre **
+            );
+                
+            // Justificar el texto en el div
+            messageDiv.style.textAlign = 'justify';
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Función para mostrar indicador de "escribiendo"
+        function showTypingIndicator() {
+            hideTypingIndicator();
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            typingDiv.id = 'typingIndicator';
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Función para ocultar indicador de "escribiendo"
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Mensaje de bienvenida inicial
+        setTimeout(() => {
+            if (chatMessages.children.length === 0) {
+                const now = new Date();
+                const mesActual = meses[now.getMonth()];
+                addMessage(`¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?`, 'received');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

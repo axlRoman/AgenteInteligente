@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente Mosses</title>
+    <style>
+        /* Estilos para el iframe del chat */
+        #chat-iframe-container {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 80px; /* Tamaño de la burbuja */
+            height: 80px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #chat-iframe-container.expanded {
+            width: 400px;
+            height: 600px;
+        }
+
+        #chatBubble {
+            border: none;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-iframe-container">
+        <iframe id="chatBubble" src="chatBubble.html" allow="microphone"></iframe>
+    </div>
+
+    <script>
+        // Comunicación entre el iframe y la página principal
+        window.addEventListener('message', function(event) {
+            const iframeContainer = document.getElementById('chat-iframe-container');
+            
+            // Escuchar mensajes del iframe para expandir/contraer
+            if (event.data.type === 'toggleChat') {
+                iframeContainer.classList.toggle('expanded', event.data.expanded);
+            }
+        });
+        const personaFiscal = "d8f2534c-a16e-44ec-a574-7ba4f75c8255";
+        const n8nEndpoint = "https://n8n.mosses.mx/webhook/SueldosYSalarios";
+        
+        const chatIframe = document.getElementById('chatBubble');
+        chatIframe.src = `chatBubble.html?personaFiscal=${encodeURIComponent(personaFiscal)}&n8nEndpoint=${encodeURIComponent(n8nEndpoint)}`;
+        // Cerrar el chat si se da clic fuera del iframe cuando está expandido
+        document.addEventListener('click', function (e) {
+            const iframeContainer = document.getElementById('chat-iframe-container');
+            const iframe = document.getElementById('chatBubble');
+
+            if (iframeContainer.classList.contains('expanded')) {
+                // Verificamos si el clic fue fuera del iframe
+                if (!iframeContainer.contains(e.target)) {
+                    iframe.contentWindow.postMessage({ type: 'forceClose' }, '*');
+                }
+            }
+        });
+</script>
+</body>
+</html>
