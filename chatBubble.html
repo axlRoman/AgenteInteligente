@@ -18,7 +18,7 @@
             right: 20px;
             width: 56px;
             height: 56px;
-            background-color: hsl(32 100% 50%);
+            background-color: #1630BE;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -64,7 +64,7 @@
         }
 
         .chat-header {
-            background-color: hsl(32 100% 50%);
+            background-color: #1630BE;
             color: white;
             padding: 15px;
             font-weight: bold;
@@ -108,7 +108,7 @@
         }
 
         .sent {
-            background-color: hsl(32 100% 50%);
+            background-color: #1630BE;
             color: white;
             align-self: flex-end;
             margin-left: auto;
@@ -164,7 +164,7 @@
         }
 
         .send-button {
-            background-color: hsl(32 100% 50%);
+            background-color: #1630BE;
             color: white;
             border: none;
             border-radius: 50%;
@@ -227,6 +227,25 @@
         .icon-minimize {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13H5v-2h14v2z'/%3E%3C/svg%3E");
         }
+        .chat-bubble-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+        }
+        
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-header-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
     </style>
 </head>
 <body>
@@ -234,16 +253,28 @@
     <div class="chat-overlay" id="chatOverlay"></div>
 
     <!-- Burbuja de chat -->
-    <div class="chat-bubble" id="chatBubble">
+    <!-- <div class="chat-bubble" id="chatBubble">
         <i class="icon icon-chat"></i>
+    </div> -->
+    <div class="chat-bubble" id="chatBubble">
+        <!-- Cambiar Imagen --><img src="https://i.pinimg.com/736x/e5/52/f8/e552f895fd66ddb26d790a7ae8802d44.jpg" alt="Chat Icon" class="chat-bubble-icon">
     </div>
+    
 
     <!-- Contenedor del chat -->
     <div class="chat-container" id="chatContainer">
-        <div class="chat-header" id="chatHeader">
+        <!-- <div class="chat-header" id="chatHeader">
             <span>Asistente Virtual</span>
             <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
+        </div> -->
+        <div class="chat-header" id="chatHeader">
+            <div class="chat-header-left">
+                <!-- Cambiar Imagen --><img src="https://i.pinimg.com/736x/e5/52/f8/e552f895fd66ddb26d790a7ae8802d44.jpg" alt="Bot Avatar" class="chat-header-icon">
+                <span>Asistente Virtual</span>
+            </div>
+            <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
         </div>
+        
         <div class="chat-messages" id="chatMessages">
         </div>
         <div class="chat-input-container">
