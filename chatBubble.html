@@ -261,7 +261,7 @@
         <i class="icon icon-chat"></i>
     </div> -->
     <div class="chat-bubble" id="chatBubble">
-        <!-- Cambiar Imagen --><img src="https://i.pinimg.com/736x/e5/52/f8/e552f895fd66ddb26d790a7ae8802d44.jpg" alt="Chat Icon" class="chat-bubble-icon">
+        <!-- Cambiar Imagen --><img src="./img/LiaLogoChatBlanco.png" alt="Chat Icon" class="chat-bubble-icon">
     </div>
     
 
@@ -273,8 +273,8 @@
         </div> -->
         <div class="chat-header" id="chatHeader">
             <div class="chat-header-left">
-                <!-- Cambiar Imagen --><img src="https://i.pinimg.com/736x/e5/52/f8/e552f895fd66ddb26d790a7ae8802d44.jpg" alt="Bot Avatar" class="chat-header-icon">
-                <span>Asistente Virtual</span>
+                <!-- Cambiar Imagen --><img src="./img/LiaLogoChatBlanco.png" alt="Bot Avatar" class="chat-header-icon">
+                <span>Lía Tu Asistente Virtual</span>
             </div>
             <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
         </div>
@@ -305,11 +305,13 @@
             const params = new URLSearchParams(window.location.search);
             return {
                 personaFiscal: params.get("personaFiscal"),
-                N8N_ENDPOINT: params.get("n8nEndpoint")
+                N8N_ENDPOINT: params.get("n8nEndpoint"),
+                regimenFiscal: params.get("regimenFiscal"),
+                nombre: params.get("nombre"),
             };
         }
         
-        const { personaFiscal, N8N_ENDPOINT } = getQueryParams();
+        const { personaFiscal, N8N_ENDPOINT, regimenFiscal, nombre } = getQueryParams();
         
 
         // Cambiar el endpoint según el régimen fiscal
@@ -446,8 +448,7 @@
                 return "consulta general";
             }
         }
-
-        // Función para enviar mensaje
+         // Función para enviar mensaje
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (message === '') return;
@@ -466,6 +467,7 @@
                     },
                     body: JSON.stringify({
                         user: personaFiscal,
+                        regimen: regimenFiscal,
                         message: message,
                         mes: extractedData.mes,
                         nombreMes: extractedData.nombreMes,
@@ -553,7 +555,7 @@
             if (chatMessages.children.length === 0) {
                 const now = new Date();
                 const mesActual = meses[now.getMonth()];
-                addMessage(`¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?`, 'received');
+                addMessage(`¡Hola ${nombre}! Soy Lía tu asistente virtual 😊. ¿Cómo puedo ayudarte hoy?`, 'received');
             }
         }, 1000);
     </script>
