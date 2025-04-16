@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
     <title>Chat OW</title>
     <style>
-        body {
+        /*body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-        }
+        }*/
 
         /* Estilo de la burbuja de chat */
         .chat-bubble {
@@ -18,13 +19,13 @@
             right: 20px;
             width: 56px;
             height: 56px;
-            background-color: #1630BE;
+            background-color: #8bd3c7;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);*/
             z-index: 1000;
             transition: all 0.3s ease;
         }
@@ -64,8 +65,8 @@
         }
 
         .chat-header {
-            background-color: #1630BE;
-            color: white;
+            background-color: #36456d;/*#8bd3c7;*/
+            color: #f1f1f1;
             padding: 15px;
             font-weight: bold;
             display: flex;
@@ -102,14 +103,15 @@
         }
 
         .received {
-            background-color: #f1f1f1;
+            background-color: #e2f1ec;
+            color: black;
             align-self: flex-start;
             border-bottom-left-radius: 5px;
         }
 
         .sent {
-            background-color: #1630BE;
-            color: white;
+            background-color: #CDD6DC;
+            color: black;
             align-self: flex-end;
             margin-left: auto;
             border-bottom-right-radius: 5px;
@@ -118,7 +120,7 @@
         .typing-indicator {
             display: inline-block;
             padding: 10px 15px;
-            background-color: #f1f1f1;
+            background-color: #e2f1ec;
             border-radius: 18px;
             margin-bottom: 15px;
             align-self: flex-start;
@@ -127,7 +129,7 @@
         .typing-indicator span {
             height: 8px;
             width: 8px;
-            background-color: #666;
+            background-color: #435751;
             border-radius: 50%;
             display: inline-block;
             margin: 0 2px;
@@ -151,20 +153,20 @@
             display: flex;
             padding: 15px;
             border-top: 1px solid #eaeaea;
-            background-color: white;
+            background-color: #36456d;
         }
 
         .chat-input {
             flex: 1;
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #8bd3c7;
             border-radius: 25px;
             outline: none;
             font-size: 14px;
         }
 
         .send-button {
-            background-color: #1630BE;
+            background-color: #8bd3c7;
             color: white;
             border: none;
             border-radius: 50%;
@@ -246,9 +248,24 @@
         .chat-header-icon {
             width: 30px;
             height: 30px;
-            border-radius: 50%;
+            border-radius: 5px;
             object-fit: cover;
+            /*background-color: #8bd3c7;*/
         }
+
+        /* Fuente por defecto para todo el cuerpo del texto */
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* Títulos y encabezados del chat */
+        .chat-header,
+        .chat-header span,
+        .chat-header .chat-header-left span {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600; /* SemiBold */
+        }
+
         
     </style>
 </head>
@@ -261,7 +278,7 @@
         <i class="icon icon-chat"></i>
     </div> -->
     <div class="chat-bubble" id="chatBubble">
-        <!-- Cambiar Imagen --><img src="./img/LiaLogoChatBlanco.png" alt="Chat Icon" class="chat-bubble-icon">
+        <!-- Cambiar Imagen --><img src="./img/bot.png" alt="Chat Icon" class="chat-bubble-icon">
     </div>
     
 
@@ -273,8 +290,8 @@
         </div> -->
         <div class="chat-header" id="chatHeader">
             <div class="chat-header-left">
-                <!-- Cambiar Imagen --><img src="./img/LiaLogoChatBlanco.png" alt="Bot Avatar" class="chat-header-icon">
-                <span>Lía Tu Asistente Virtual</span>
+                <!-- Cambiar Imagen --><img src="./img/bot.png" alt="Bot Avatar" class="chat-header-icon">
+                <span>LÍA Tu Asistente Virtual</span>
             </div>
             <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
         </div>
@@ -555,9 +572,26 @@
             if (chatMessages.children.length === 0) {
                 const now = new Date();
                 const mesActual = meses[now.getMonth()];
-                addMessage(`¡Hola ${nombre}! Soy Lía tu asistente virtual 😊. ¿Cómo puedo ayudarte hoy?`, 'received');
+                addMessage(`¡Hola ${nombre}! Soy LÍA tu asistente virtual 😊. ¿Cómo puedo ayudarte hoy?`, 'received');
             }
         }, 1000);
+
+        //nuevo
+        // Lista de colores posibles
+        const coloresBurbuja = ['#9d8d9c', '#95dbcd', '#CDD6CD', '#8bd3c7', '#a8d0db'];
+
+        // Elegir uno al azar
+        const colorAleatorio = coloresBurbuja[Math.floor(Math.random() * coloresBurbuja.length)];
+
+        // Aplicarlo al elemento con clase .chat-bubble
+        const burbuja = document.querySelector('.chat-bubble');
+        /*const icono = document.querySelector('.chat-header-icon');
+        if (icono) {
+            icono.style.backgroundColor = colorAleatorio;
+        }*/
+        if (burbuja) {
+            burbuja.style.backgroundColor = colorAleatorio;
+        }
     </script>
 </body>
 </html>
