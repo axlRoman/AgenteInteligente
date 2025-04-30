@@ -19,7 +19,7 @@
             right: 20px;
             width: 56px;
             height: 56px;
-            background-color: #8bd3c7;
+            background-color: #1F2A44/*8bd3c7*/;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -67,7 +67,7 @@
         .chat-header {
             background-color: #36456d;/*#8bd3c7;*/
             color: #f1f1f1;
-            padding: 15px;
+            padding: 10px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -234,9 +234,9 @@
         se agregaron los estilos para la imagen de la burbuja de chat y el icono del header
         */
         .chat-bubble-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+            width: 56px; /* Ajustar el ancho de la imagen */
+            height: 56px; /* Ajustar la altura de la imagen */
+            object-fit: contain; /* Asegurar que la imagen mantenga sus proporciones */
         }
         
         .chat-header-left {
@@ -246,9 +246,8 @@
         }
         
         .chat-header-icon {
-            width: 30px;
+            width: 40px;
             height: 30px;
-            border-radius: 5px;
             object-fit: cover;
             /*background-color: #8bd3c7;*/
         }
@@ -262,8 +261,12 @@
         .chat-header,
         .chat-header span,
         .chat-header .chat-header-left span {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600; /* SemiBold */
+           /* font-family: 'Montserrat', sans-serif;
+            /*font-weight: 600; /* SemiBold */
+            font-family: "Bodoni Moda", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
         }
 
         
@@ -278,7 +281,7 @@
         <i class="icon icon-chat"></i>
     </div> -->
     <div class="chat-bubble" id="chatBubble">
-        <!-- Cambiar Imagen --><img src="https://owfiles.s3.us-west-2.amazonaws.com/Imagenes/LiaLogoBurbuja.png" alt="Chat Icon" class="chat-bubble-icon">
+        <!-- Cambiar Imagen --><img src="./img/LiaChatBlancoTransparete.png" alt="Chat Icon" class="chat-bubble-icon">
     </div>
     
 
@@ -290,8 +293,8 @@
         </div> -->
         <div class="chat-header" id="chatHeader">
             <div class="chat-header-left">
-                <!-- Cambiar Imagen --><img src="https://owfiles.s3.us-west-2.amazonaws.com/Imagenes/LiaLogoHeader.png" alt="Bot Avatar" class="chat-header-icon">
-                <span>LÍA Tu Asistente Virtual</span>
+                <!-- Cambiar Imagen --><img src="./img/LiaChatBlancoTransparete.png" alt="Bot Avatar" class="chat-header-icon">
+                <span>Tu asesora contable virtual</span>
             </div>
             <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
         </div>
@@ -374,6 +377,8 @@
 
         // Event listeners
         chatBubble.addEventListener('click', toggleChat);
+        closeChat.addEventListener('click', closeChatContainer);
+
         
         // Escucha eventos de la página padre para cerrar el chat
         window.addEventListener('message', function(event) {
