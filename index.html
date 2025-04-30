@@ -44,13 +44,14 @@
                 iframeContainer.classList.toggle('expanded', event.data.expanded);
             }
         });
-        const personaFiscal = "d8f2534c-a16e-44ec-a574-7ba4f75c8255";
-        const n8nEndpoint = "https://n8n.mosses.mx/webhook/SueldosYSalarios";
-        const regimenFiscal = "sueldosySalarios";
+        const personaFiscal = "d8f2534c-a16e-44ec-a574-7ba4f75c8f0";//"resico";//
+        const n8nEndpoint =  "https://ai.mosses.mx/webhook/Matriz";//"http://localhost:5678/webhook/remienes";//
+        const regimenFiscal = "626";//"resico";//
         const nombre = "Axel Roman";
-        
+        const plataforma = "me"; 
+
         const chatIframe = document.getElementById('chatBubble');
-        chatIframe.src = `chatBubble.html?personaFiscal=${encodeURIComponent(personaFiscal)}&n8nEndpoint=${encodeURIComponent(n8nEndpoint)}&regimenFiscal=${encodeURIComponent(regimenFiscal)}&nombre=${encodeURIComponent(nombre)}`;
+        chatIframe.src = `chatBubble.html?personaFiscal=${encodeURIComponent(personaFiscal)}&n8nEndpoint=${encodeURIComponent(n8nEndpoint)}&regimenFiscal=${encodeURIComponent(regimenFiscal)}&nombre=${encodeURIComponent(nombre)}&plataforma=${encodeURIComponent(plataforma)}`;
         // Cerrar el chat si se da clic fuera del iframe cuando está expandido
         document.addEventListener('click', function (e) {
             const iframeContainer = document.getElementById('chat-iframe-container');
