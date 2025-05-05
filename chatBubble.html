@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
-    <title>Chat OW</title>
+    <title>Inteligencia para Alta Dirección</title>
     <style>
         /*body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,13 +19,13 @@
             right: 20px;
             width: 56px;
             height: 56px;
-            background-color: #1F2A44/*8bd3c7*/;
+            background-color: #FFF/*#1F2A44*/;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);*/
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             transition: all 0.3s ease;
         }
@@ -103,7 +103,7 @@
         }
 
         .received {
-            background-color: #e2f1ec;
+            background-color: #C7B8FF;
             color: black;
             align-self: flex-start;
             border-bottom-left-radius: 5px;
@@ -120,7 +120,7 @@
         .typing-indicator {
             display: inline-block;
             padding: 10px 15px;
-            background-color: #e2f1ec;
+            background-color: #C7B8FF;
             border-radius: 18px;
             margin-bottom: 15px;
             align-self: flex-start;
@@ -153,20 +153,20 @@
             display: flex;
             padding: 15px;
             border-top: 1px solid #eaeaea;
-            background-color: #36456d;
+            background-color: #FFF;
         }
 
         .chat-input {
             flex: 1;
             padding: 12px 15px;
-            border: 1px solid #8bd3c7;
+            border: 1px solid #36456d;
             border-radius: 25px;
             outline: none;
             font-size: 14px;
         }
 
         .send-button {
-            background-color: #8bd3c7;
+            background-color: #36456d;
             color: white;
             border: none;
             border-radius: 50%;
@@ -223,8 +223,8 @@
         }
 
         .icon-send {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/%3E%3C/svg%3E");
-        }
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C7B8FF'%3E%3Cpath d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/%3E%3C/svg%3E");
+        }        
 
         .icon-minimize {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13H5v-2h14v2z'/%3E%3C/svg%3E");
@@ -237,8 +237,8 @@
             width: 56px; /* Ajustar el ancho de la imagen */
             height: 56px; /* Ajustar la altura de la imagen */
             object-fit: contain; /* Asegurar que la imagen mantenga sus proporciones */
+            border-radius: 50%; /* Hacer la imagen circular */
         }
-        
         .chat-header-left {
             display: flex;
             align-items: center;
@@ -254,7 +254,11 @@
 
         /* Fuente por defecto para todo el cuerpo del texto */
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-optical-sizing: auto;
+            /*font-weight: 400;*/
+            margin: 0;
+            padding: 0;
         }
 
         /* Títulos y encabezados del chat */
@@ -281,7 +285,7 @@
         <i class="icon icon-chat"></i>
     </div> -->
     <div class="chat-bubble" id="chatBubble">
-        <!-- Cambiar Imagen --><img src="./img/LiaChatBlancoTransparete.png" alt="Chat Icon" class="chat-bubble-icon">
+        <!-- Cambiar Imagen --><img src="./img/LiaChatAzulFontoTransparente.png" alt="Chat Icon" class="chat-bubble-icon">
     </div>
     
 
@@ -294,7 +298,7 @@
         <div class="chat-header" id="chatHeader">
             <div class="chat-header-left">
                 <!-- Cambiar Imagen --><img src="./img/LiaChatBlancoTransparete.png" alt="Bot Avatar" class="chat-header-icon">
-                <span>Tu asesora contable virtual</span>
+                <span>Inteligencia para Alta Dirección</span>
             </div>
             <span class="close-chat" id="closeChat"><i class="icon icon-minimize"></i></span>
         </div>
@@ -564,28 +568,6 @@
                 addMessage(`¡Hola ${nombre}! Soy LÍA tu asistente virtual 😊. ¿Cómo puedo ayudarte hoy?`, 'received');
             }
         }, 1000);
-
-        //nuevo
-        // Lista de colores posibles
-       /* const coloresBurbuja = ['#9d8d9c']; /*, '#95dbcd', '#CDD6CD', '#8bd3c7', '#a8d0db', '#5d684c', '#828271', 
-                                '#796e6a', '#417272', '#327d7d', '#635f55', '#70655e', '#ac987f', '#a48172', 
-                                '#627f74', '#79837a', '#6e776a', '#725a5d', '#ac978c', '#a4786a', '#748674', 
-                                '#a9857a', '#617476', '#6c6660', '#9f9798', '#a36059', '#7c8e84', '#7f8d89', 
-                                '#745d6a', '#5c656c', '#8e9599', '#a26051', '#738b86', '#5a8f8f', '#825955', 
-                                '#64454d', '#88737c', '#86654f', '#4b6355', '#868680', '#636a58'];*/
-
-        // Elegir uno al azar
-        const colorAleatorio = coloresBurbuja[Math.floor(Math.random() * coloresBurbuja.length)];
-
-        // Aplicarlo al elemento con clase .chat-bubble
-        const burbuja = document.querySelector('.chat-bubble');
-        /*const icono = document.querySelector('.chat-header-icon');
-        if (icono) {
-            icono.style.backgroundColor = colorAleatorio;
-        }*/
-        if (burbuja) {
-            burbuja.style.backgroundColor = colorAleatorio;
-        }
     </script>
 </body>
 </html>
