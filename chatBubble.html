@@ -158,12 +158,18 @@
 
         .chat-input {
             flex: 1;
+            resize: none;
+            overflow-y: auto;
             padding: 12px 15px;
             border: 1px solid #36456d;
             border-radius: 25px;
             outline: none;
             font-size: 14px;
+            line-height: 1.4;
+            max-height: calc(1.4em * 3); /* 3 líneas + padding */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
 
         .send-button {
             background-color: #36456d;
@@ -306,7 +312,7 @@
         <div class="chat-messages" id="chatMessages">
         </div>
         <div class="chat-input-container">
-            <input type="text" class="chat-input" id="messageInput" placeholder="Introduce tu mensaje...">
+            <textarea class="chat-input" id="messageInput" placeholder="Introduce tu mensaje..." rows="1"></textarea>
             <button class="send-button" id="sendButton">
                 <i class="icon icon-send"></i>
             </button>
@@ -402,10 +408,12 @@
         });
 
         // Enviar mensaje al presionar Enter o hacer clic en el botón
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
                 sendMessage();
             }
+            // Si es Shift+Enter, permite el salto de línea por defecto
         });
 
         sendButton.addEventListener('click', sendMessage);
@@ -461,9 +469,13 @@
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (message === '') return;
+            
 
             addMessage(message, 'sent');
+            //conversationHistory.push({ text: message, sender: 'user' }); // Guarda en historial local
+           
             messageInput.value = '';
+            messageInput.style.height = 'auto';
             showTypingIndicator();
 
             try {
@@ -484,6 +496,7 @@
                         anio: extractedData.anio,
                         ultimoDia: extractedData.ultimoDia,
                         timestamp: new Date().toISOString(),
+                        sender: 'user' // Agrega quién envió el mensaje
                     }),
                 });
 
@@ -496,9 +509,11 @@
                 
                 if (data){//&& data.response) {
                     addMessage(data, 'received');
+                   // conversationHistory.push({ text: data, sender: 'bot' }); // Guarda la respuesta
                 } else {
                     //addMessage(data.response, 'received');
                     addMessage('Recibí tu mensaje. ¿En qué más puedo ayudarte?', 'received');
+                    //conversationHistory.push({ text: 'Recibí tu mensaje. ¿En qué más puedo ayudarte?', sender: 'bot' });
                 }
             } catch (error) {
                 hideTypingIndicator();
@@ -560,14 +575,39 @@
             }
         }
 
-        // Mensaje de bienvenida inicial
+        function obtenerSaludoAleatorio(nombre) {
+            const saludos = [
+                `¡Hola! Soy Lía, tu asesora contable virtual. Estoy lista para acompañarte con claridad y confianza 🤝. ¿Por dónde te gustaría empezar hoy, ${nombre}?`,
+                `Bienvenido, ${nombre}. Soy Lía y estoy aquí para ayudarte a ver tus cifras con tranquilidad, precisión y visión estratégica 💼. ¿Qué necesitas hoy?`,
+                `¡Hola! Soy Lía 😊. Puedo ayudarte a revisar tu contabilidad, responder dudas fiscales o mostrarte tus indicadores clave. ¿Qué te gustaría hacer primero, ${nombre}?`,
+                `Es un gusto saludarte, ${nombre}. Soy Lía, tu aliada fiscal inteligente. Hoy vamos a trabajar con datos... pero con calma y claridad. ¿Cómo te puedo apoyar?`,
+                `¡Hola! Me alegra estar contigo, ${nombre}. Soy Lía, tu asistente contable digital. ¿Te gustaría revisar tus métricas, tus facturas o resolver una duda fiscal?`,
+                `Bienvenido de nuevo, ${nombre}. Soy Lía y estoy lista para ayudarte a tomar decisiones contables con claridad y confianza 💙. ¿Qué necesitas hoy?`,
+                `Hola, ${nombre}. Soy Lía. Sé que el mundo fiscal puede ser complejo, pero estoy aquí para hacerlo sencillo y útil para ti. ¿Por dónde empezamos?`,
+                `¡Hola! Soy Lía 🧠, tu asistente profesional en temas contables y fiscales. Podemos revisar cifras, declaraciones o simplemente ayudarte a tomar control. ¿Listo, ${nombre}?`,
+                `Buen día, ${nombre}. Soy Lía, tu aliada digital. Si necesitas claridad, orientación o un análisis inteligente, aquí estoy. ¿Qué te gustaría ver primero?`,
+                `¡Hola! Soy Lía. Estoy aquí para ayudarte a organizar, interpretar y mejorar tu información fiscal. ¿Cómo te gustaría que te acompañe hoy, ${nombre}?`
+            ];
+            const indiceAleatorio = Math.floor(Math.random() * saludos.length);
+            return saludos[indiceAleatorio];
+        }
+        
+        // Modifica tu setTimeout para usar esta función
         setTimeout(() => {
             if (chatMessages.children.length === 0) {
-                const now = new Date();
-                const mesActual = meses[now.getMonth()];
-                addMessage(`¡Hola ${nombre}! Soy LÍA tu asistente virtual 😊. ¿Cómo puedo ayudarte hoy?`, 'received');
+                const saludo = obtenerSaludoAleatorio(nombre);
+                addMessage(saludo, 'received');
             }
         }, 1000);
+
+        const maxHeight = 70; // ajusta según tu diseño
+
+        messageInput.addEventListener('input', () => {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = `${Math.min(messageInput.scrollHeight, maxHeight)}px`;
+        });
+
+
     </script>
 </body>
 </html>
